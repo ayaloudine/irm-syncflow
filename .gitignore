@@ -1,0 +1,30 @@
+# Secrets and environment variables
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+credentials.json
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.bak
+
+# Dependencies and generated files
+node_modules/
+.venv/
+venv/
+__pycache__/
+dist/
+build/
+.next/
+coverage/
+
+# Operating system
+Thumbs.db
+.DS_Store
