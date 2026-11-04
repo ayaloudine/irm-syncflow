@@ -1,4 +1,4 @@
-# Test-AutoSaveGit.ps1
+﻿# Test-AutoSaveGit.ps1
 # Tests de base pour AutoSaveGit.ps1
 # Ces tests utilisent un dépôt Git temporaire et ne publient rien sur GitHub.
 
