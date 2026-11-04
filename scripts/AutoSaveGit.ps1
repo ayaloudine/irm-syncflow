@@ -217,17 +217,10 @@ function Invoke-AutoCommit {
         Write-Host "Conseil : ajoute-les à ton .gitignore et retire-les de Git (git rm --cached)." -ForegroundColor Cyan
     }
 
-    # Les fichiers sensibles ne sont jamais ajoutés à l'index
+    # FIX BUG 4 : les fichiers sensibles ne sont JAMAIS ajoutés à l'index
     $addArgs = @('add', '-A', '--', '.')
     foreach ($f in $sensitive) { $addArgs += ":(exclude,literal)$f" }
     git -C $Path @addArgs 2>&1 | Out-Null
-    if ($LASTEXITCODE -ne 0) {
-        Write-Host "Erreur lors de la préparation des fichiers." -ForegroundColor Red
-        $null = Reset-StagingSafely -Path $Path
-        return $false
-    }
-
-    git -C $Path add -A 2>&1 | Out-Null
     if ($LASTEXITCODE -ne 0) {
         Write-Host "Erreur lors de la préparation des fichiers." -ForegroundColor Red
         $null = Reset-StagingSafely -Path $Path
