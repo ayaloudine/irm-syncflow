@@ -1,4 +1,4 @@
-# tests\Invoke-Tests.ps1
+﻿# tests\Invoke-Tests.ps1
 # Lance les tests Pester de l'agent.
 
 $ErrorActionPreference = "Stop"

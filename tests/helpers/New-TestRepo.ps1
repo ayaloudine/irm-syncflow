@@ -1,9 +1,10 @@
-# tests\helpers\New-TestRepo.ps1
+﻿# tests\helpers\New-TestRepo.ps1
 # Crée un dépôt Git jetable pour les tests Pester.
 
 function New-TestRepo {
     param(
-        [switch]$WithRemote
+        [switch]$WithRemote,
+        [string]$BranchName = "main"
     )
 
     # PS 5.1 : avec EAP=Stop (imposé par Pester), tout stderr natif
@@ -19,14 +20,14 @@ function New-TestRepo {
         New-Item -ItemType Directory -Path $root -Force | Out-Null
         New-Item -ItemType Directory -Path $work -Force | Out-Null
 
-        git -C $work init -b main 2>&1 | Out-Null
+        git -C $work init -b $BranchName 2>&1 | Out-Null
         if ($LASTEXITCODE -ne 0) { throw "git init a échoué" }
 
         git -C $work config user.name  "Test" 2>&1 | Out-Null
         git -C $work config user.email "test@example.invalid" 2>&1 | Out-Null
 
         Set-Content -LiteralPath "$work\a.txt"       -Value "init"
-        Set-Content -LiteralPath "$work\.gitignore"  -Value ".env"
+        Set-Content -LiteralPath "$work\.gitignore" -Value "__pycache__/"
         git -C $work add -A 2>&1 | Out-Null
         git -C $work commit -m "init" 2>&1 | Out-Null
         if ($LASTEXITCODE -ne 0) { throw "git commit init a échoué" }
@@ -38,7 +39,7 @@ function New-TestRepo {
             git -C $work remote add origin $remote 2>&1 | Out-Null
             if ($LASTEXITCODE -ne 0) { throw "git remote add a échoué" }
 
-            git -C $work push -u origin main 2>&1 | Out-Null
+            git -C $work push -u origin $BranchName 2>&1 | Out-Null
             if ($LASTEXITCODE -ne 0) { throw "git push initial a échoué (code $LASTEXITCODE)" }
         }
 
